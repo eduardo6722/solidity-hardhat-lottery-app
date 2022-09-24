@@ -5,14 +5,13 @@ import solc from 'solc';
 const inboxPath = path.resolve(__dirname, 'contracts', 'Inbox.sol');
 const source = fs.readFileSync(inboxPath, 'utf8');
 
-let input = {
+const input = {
   language: 'Solidity',
   sources: {
     [inboxPath]: {
       content: source,
     },
   },
-
   settings: {
     outputSelection: {
       '*': {
