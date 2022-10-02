@@ -2,13 +2,13 @@ import path from 'path';
 import fs from 'fs';
 import solc from 'solc';
 
-const inboxPath = path.resolve(__dirname, 'contracts', 'Inbox.sol');
-const source = fs.readFileSync(inboxPath, 'utf8');
+const lotteryPath = path.resolve(__dirname, 'contracts', 'Lottery.sol');
+const source = fs.readFileSync(lotteryPath, 'utf8');
 
 const input = {
   language: 'Solidity',
   sources: {
-    [inboxPath]: {
+    [lotteryPath]: {
       content: source,
     },
   },
@@ -24,6 +24,7 @@ const input = {
 const output = JSON.parse(solc.compile(JSON.stringify(input)));
 
 export default {
-  abi: output.contracts[[inboxPath] as any]['Inbox'].abi,
-  bytecode: output.contracts[[inboxPath] as any]['Inbox'].evm.bytecode.object,
+  abi: output.contracts[[lotteryPath] as any]['Lottery'].abi,
+  bytecode:
+    output.contracts[[lotteryPath] as any]['Lottery'].evm.bytecode.object,
 };

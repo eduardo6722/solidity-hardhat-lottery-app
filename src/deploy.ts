@@ -17,7 +17,6 @@ async function deploy() {
   const result = await new web3.eth.Contract(compile.abi)
     .deploy({
       data: compile.bytecode,
-      arguments: ['Hello deploy!'],
     })
     .send({
       gas: 1000000,
