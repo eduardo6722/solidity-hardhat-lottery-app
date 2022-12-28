@@ -6,6 +6,10 @@ contract Lottery {
     address[] public players;
     address public winner;
 
+    event PlayedJoined(address player);
+    event Winner(address player);
+    error JoinOnce(address player, string errorMessage);
+
     constructor() {
         manager = msg.sender;
     }
@@ -20,25 +24,31 @@ contract Lottery {
         players = new address[](0);
     }
 
+    function enter() public payable {
+        require(msg.value > 0.01 ether);
+        players.push(msg.sender);
+        emit PlayedJoined(msg.sender);
+    }
+
     function getPlayers() public view isManager returns (address[] memory) {
         return players;
     }
 
-    function enter() public payable {
-        require(msg.value > 0.01 ether);
-        players.push(msg.sender);
-    }
-
     function random() private view returns (uint) {
-        return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players))) % players.length;
+        return
+            uint(
+                keccak256(
+                    abi.encodePacked(block.difficulty, block.timestamp, players)
+                )
+            ) % players.length;
     }
 
     function pickWinner() public isManager {
         uint index = random();
         winner = players[index];
-        payable(winner).transfer(address(this).balance * 90 / 100);
+        emit Winner(winner);
+        payable(winner).transfer((address(this).balance * 90) / 100);
         reset();
-        
     }
 
     function balance() public view isManager returns (uint256) {
