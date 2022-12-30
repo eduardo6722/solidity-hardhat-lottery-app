@@ -3,7 +3,7 @@ import Head from 'next/head';
 import useLottery from '../hooks/useLottery';
 
 export default function Home() {
-  const { handleConnectWallet, account } = useLottery();
+  const { handleConnectWallet, joinLottery, account } = useLottery();
   return (
     <>
       <Head>
@@ -24,6 +24,13 @@ export default function Home() {
                 : 'Connect wallet'
             }`}
           </Button>
+        </Flex>
+        <Flex justifyContent='center' margin='22px 0'>
+          {account ? (
+            <Button onClick={joinLottery} colorScheme='green'>
+              JOIN
+            </Button>
+          ) : undefined}
         </Flex>
       </Stack>
     </>
